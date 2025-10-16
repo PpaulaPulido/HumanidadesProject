@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Inteligencias Múltiples</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}"> -->
+    <link rel="stylesheet" href="/static/css/login.css">
+</head>
+
+<body>
+    <div class="login-container">
+            <div class="image-section">
+                <div class="image-content">
+                    <a href="{{ url_for('home') }}"><i class="fas fa-brain brain-icon"></i></a>
+                    <h2 class="image-title">Inteligencias Múltiples</h2>
+                    <p class="image-subtitle">Bienvenido de vuelta a tu espacio de aprendizaje personalizado</p>
+                    <div class="features-list">
+                        <div class="feature-item">
+                            <i class="fas fa-rocket feature-icon"></i>
+                            <span>Accede a tus recursos</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-chart-line feature-icon"></i>
+                            <span>Revisa tu progreso</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-users feature-icon"></i>
+                            <span>Conecta con tu comunidad</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <div class="form-header">
+                    <div class="logo-mobile">
+                        <i class="fas fa-brain"></i>
+                        <span>IM</span>
+                    </div>
+                    <h1 class="form-title">Iniciar Sesión</h1>
+                    <p class="form-subtitle">Ingresa a tu cuenta personal</p>
+                </div>
+
+                <!-- Mensajes Flash -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }} fade-show">
+                    <i
+                        class="fas fa-{{ 'exclamation-circle' if category == 'danger' else 'check-circle' }} alert-icon"></i>
+                    <span>{{ message }}</span>
+                    <button class="alert-close" onclick="this.parentElement.remove()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+
+                <form method="POST" action="{{ url_for('auth.login') }}" id="loginForm" novalidate>
+                    <div class="form-group">
+                        <label for="email" class="form-label">
+                            <i class="fas fa-envelope input-icon"></i>
+                            Correo Electrónico
+                        </label>
+                        <input type="email" id="email" name="email" class="form-input"
+                            value="{{ request.form.email if request.form.email }}" placeholder="tu.correo@ejemplo.com"
+                            required autocomplete="email">
+                        <div class="input-underline"></div>
+                        <div class="form-error" id="email-error"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="form-label">
+                            <i class="fas fa-lock input-icon"></i>
+                            Contraseña
+                        </label>
+                        <input type="password" id="password" name="password" class="form-input"
+                            placeholder="Ingresa tu contraseña" required autocomplete="current-password">
+                        <div class="input-underline"></div>
+                        <div class="password-toggle" id="password-toggle">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <div class="form-error" id="password-error"></div>
+                    </div>
+
+
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <span class="btn-text">Iniciar Sesión</span>
+                        <div class="btn-loader">
+                            <div class="loader-dot"></div>
+                            <div class="loader-dot"></div>
+                            <div class="loader-dot"></div>
+                        </div>
+                        <i class="fas fa-arrow-right btn-arrow"></i>
+                    </button>
+                </form>
+
+                <div class="register-link">
+                    <p>¿No tienes una cuenta?
+                        <a href="{{ url_for('auth.register') }}" class="link">
+                            <span>Regístrate aquí</span>
+                            <i class="fas fa-arrow-right link-arrow"></i>
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="particles-container"></div>
+
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+</body>
+
+</html>

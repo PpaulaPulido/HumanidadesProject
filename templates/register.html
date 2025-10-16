@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Inteligencias Múltiples</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+    <link rel="stylesheet" href="/static/css/register.css">
+</head>
+<body>
+    <div class="container">
+        <div class="image-section">
+            <div class="image-content">
+                <a href="{{ url_for('home') }}"><i class="fas fa-brain brain-icon"></i></a>
+                <h2 class="image-title">Inteligencias Múltiples</h2>
+                <p class="image-subtitle">Descubre tu potencial único y desarrolla todas tus capacidades cognitivas</p>
+            </div>
+        </div>
+        
+        <div class="form-section">
+            <div class="form-header">
+                <h1 class="form-title">Crear Cuenta</h1>
+                <p class="form-subtitle">Únete a nuestra comunidad educativa</p>
+            </div>
+
+            <!-- Mensajes Flash -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }} fade-show">
+                            <i class="fas fa-{{ 'exclamation-circle' if category == 'danger' else 'check-circle' }} alert-icon"></i>
+                            <span>{{ message }}</span>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <form method="POST" action="{{ url_for('auth.register') }}" id="registerForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="first_name" class="form-label">
+                            <i class="fas fa-user input-icon"></i>
+                            Nombre
+                        </label>
+                        <input type="text" id="first_name" name="first_name" class="form-input" 
+                               value="{{ request.form.first_name if request.form.first_name }}" placeholder="Tu nombre" required>
+                        <div class="input-underline"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="last_name" class="form-label">
+                            <i class="fas fa-users input-icon"></i>
+                            Apellido
+                        </label>
+                        <input type="text" id="last_name" name="last_name" class="form-input" 
+                               value="{{ request.form.last_name if request.form.last_name }}" placeholder="Tu apellido" required>
+                        <div class="input-underline"></div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" class="form-label">
+                        <i class="fas fa-envelope input-icon"></i>
+                        Email
+                    </label>
+                    <input type="email" id="email" name="email" class="form-input" 
+                           value="{{ request.form.email if request.form.email }}" placeholder="tu@email.com" required>
+                    <div class="input-underline"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="school" class="form-label">
+                        <i class="fas fa-school input-icon"></i>
+                        Institución Educativa
+                    </label>
+                    <input type="text" id="school" name="school" class="form-input" 
+                           value="{{ request.form.school if request.form.school }}" placeholder="Nombre de tu institución (opcional)">
+                    <div class="input-underline"></div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="password" class="form-label">
+                            <i class="fas fa-lock input-icon"></i>
+                            Contraseña
+                        </label>
+                        <input type="password" id="password" name="password" class="form-input" placeholder="••••••••" required>
+                        <div class="input-underline"></div>
+                        <div class="password-strength">
+                            <div class="strength-bar"></div>
+                            <div class="strength-text"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirm_password" class="form-label">
+                            <i class="fas fa-lock input-icon"></i>
+                            Confirmar Contraseña
+                        </label>
+                        <input type="password" id="confirm_password" name="confirm_password" class="form-input" placeholder="••••••••" required>
+                        <div class="input-underline"></div>
+                        <div class="password-match"></div>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    <span class="btn-text">Crear Cuenta</span>
+                    <div class="btn-loader">
+                        <div class="loader-dot"></div>
+                        <div class="loader-dot"></div>
+                        <div class="loader-dot"></div>
+                    </div>
+                    <i class="fas fa-arrow-right btn-arrow"></i>
+                </button>
+            </form>
+            
+            <div class="login-link">
+                <p>¿Ya tienes cuenta? 
+                    <a href="{{ url_for('auth.login') }}" class="link">
+                        <span>Inicia sesión aquí</span>
+                        <i class="fas fa-arrow-right link-arrow"></i>
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div id="confetti-container"></div>
+
+    <script src="{{ url_for('static', filename='js/register.js') }}"></script>
+</body>
+</html>
